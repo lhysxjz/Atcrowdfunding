@@ -1,0 +1,96 @@
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+        <display-name>Atcrowdfunding</display-name>
+<!--别的项目调用web项目加载所有配置文件，所以匹配时可以扫描到别的项目的时-->
+        <context-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:spring/spring-*.xml</param-value>
+        </context-param>
+
+        <!-- 监听器 -->
+        <!--
+            创建Spring框架的IOC容器
+            将IOC容器对象存放在application域
+            调用
+            ApplicaitonContext ioc = WebApplicationContextUtils.getWebApplicationContext(application);返回IOC容器
+
+            ServletContextListener监听ServletContext创建和销毁，同时负责ioc的创建和销毁
+            -->
+<!--    ServletContextListener
+    监听ServeltContext的创建
+    应用场景：
+        1、建立数据库表结构，初始化数据库
+        2、在服务器启动时，将数据库常量加载到内存，提高访问效率
+        3、服务器启动时，获取醒目上下文路径，存放到application供页面使用
+        4、在线计数器
+        ServletAttributeListener 属性监听器
+-->
+        <listener>
+            <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        </listener>
+
+        <!-- 字符编码过滤器 -->
+<!--    过滤器的执行顺序 是看过滤器匹配原则，精确匹配先执行
+        如果都相同，则考虑filter-mapping靠前的先执行
+-->
+        <filter>
+            <filter-name>encoding</filter-name>
+            <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+            <init-param>
+                <param-name>encoding</param-name>
+                <param-value>UTF-8</param-value>
+            </init-param>
+            <init-param>
+                <param-name>forceEncoding</param-name>
+                <param-value>true</param-value>
+            </init-param>
+        </filter>
+        <filter-mapping>
+            <filter-name>encoding</filter-name>
+            <url-pattern>/*</url-pattern>
+<!--      转发过滤 请求过滤      -->
+            <dispatcher>FORWARD</dispatcher>
+            <dispatcher>REQUEST</dispatcher>
+        </filter-mapping>
+
+<!--支持restFul风格 将POST转换为PUT和DELETE方法-->
+        <filter>
+            <filter-name>HiddenHttpMethodFilter</filter-name>
+            <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+        </filter>
+        <filter-mapping>
+            <filter-name>HiddenHttpMethodFilter</filter-name>
+            <servlet-name>springmvc</servlet-name>
+        </filter-mapping>
+
+
+
+        <servlet>
+            <servlet-name>springmvc</servlet-name>
+            <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+            <init-param>
+                <param-name>contextConfigLocation</param-name>
+                <param-value>classpath:spring/springmvc-context.xml</param-value>
+            </init-param>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
+        <servlet-mapping>
+<!--            路径匹配规则 精确匹配 /user/save
+                路径匹配 /user/*
+                扩展匹配 *.htm *.do 不允许添加路径
+                默认匹配/
+-->
+            <servlet-name>springmvc</servlet-name>
+            <url-pattern>*.htm</url-pattern>
+            <url-pattern>*.do</url-pattern>
+        </servlet-mapping>
+
+        <!-- 会话超时时间 -->
+        <session-config>
+            <session-timeout>60</session-timeout>
+        </session-config>
+
+        <welcome-file-list>
+            <welcome-file>index.jsp</welcome-file>
+        </welcome-file-list>
+
+</web-app>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Atcrowdfundingbean" />
+        <module name="Atcrowdfundingpotalapi" />
+        <module name="Atcrowdfundingmanagerimpl" />
+        <module name="Atcrowdfundingmanagerapi" />
+        <module name="Atcrowdfundingmain" />
+        <module name="Atcrowdfundingcommon" />
+        <module name="Atcrowdfundingpotalimpl" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Atcrowdfundingmanager" target="1.8" />
+      <module name="Atcrowdfundingportal" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
